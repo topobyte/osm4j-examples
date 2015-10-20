@@ -27,6 +27,10 @@ dependencies {
     compile 'de.topobyte:osm4j-tbo:0.0.1'
     compile 'de.topobyte:osm4j-geometry:0.0.1'
 
+    compile 'de.topobyte:adt-geo:0.0.1'
+    compile 'de.topobyte:jts2awt:0.0.1'
+    compile 'de.topobyte:mercator-image:0.0.1'
+
     compile 'org.wololo:jts2geojson:0.6.0'
 
     compile 'org.apache.commons:commons-compress:1.8'
