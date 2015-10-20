@@ -17,3 +17,8 @@ Create an Eclipse project like this:
 
 After that, got to the 'Git Repositories' view, add the local repository to
 the list. Then right click the repository and select 'Import Projects'.
+
+## Tutorial
+
+Check out the [Tutorial](http://www.topobyte.de/tutorials/osm4j/)
+to get an in-depth explanation of the examples in this project.
