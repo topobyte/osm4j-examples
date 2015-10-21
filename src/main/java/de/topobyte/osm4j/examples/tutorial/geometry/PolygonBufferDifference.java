@@ -43,7 +43,7 @@ import de.topobyte.osm4j.core.resolve.InMemoryDataSet;
 import de.topobyte.osm4j.geometry.GeometryBuilder;
 import de.topobyte.osm4j.xml.dynsax.OsmXmlIterator;
 
-public class PolygonOperation2
+public class PolygonBufferDifference
 {
 
 	public static void main(String[] args) throws MalformedURLException,
@@ -69,18 +69,22 @@ public class PolygonOperation2
 
 		OsmRelation relation = relations.valueCollection().iterator().next();
 
+		// Build the polygon from the relation
 		MultiPolygon polygon = GeometryBuilder.build(relation, data);
+
+		// Create a buffer
 		Geometry buffer = polygon.buffer(0.005);
+
+		// Compute the difference, buffer - polygon
 		Geometry difference = buffer.difference(polygon);
 
+		// GeoJSON output
 		Map<String, Object> properties = new HashMap<>();
-
 		GeoJSONWriter writer = new GeoJSONWriter();
 		org.wololo.geojson.Geometry g = writer.write(difference);
 		Feature feature = new Feature(g, properties);
 
 		String json = feature.toString();
-
 		System.out.println(GeoJsonHelper.prettyPrintFeature(json));
 	}
 

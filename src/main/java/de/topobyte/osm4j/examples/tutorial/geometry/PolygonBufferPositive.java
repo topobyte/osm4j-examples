@@ -33,7 +33,6 @@ import org.wololo.jts2geojson.GeoJSONWriter;
 import org.xml.sax.SAXException;
 
 import com.vividsolutions.jts.geom.Geometry;
-import com.vividsolutions.jts.geom.GeometryCollection;
 import com.vividsolutions.jts.geom.GeometryFactory;
 import com.vividsolutions.jts.geom.MultiPolygon;
 
@@ -45,7 +44,7 @@ import de.topobyte.osm4j.core.resolve.InMemoryDataSet;
 import de.topobyte.osm4j.geometry.GeometryBuilder;
 import de.topobyte.osm4j.xml.dynsax.OsmXmlIterator;
 
-public class PolygonOperation1
+public class PolygonBufferPositive
 {
 
 	public static void main(String[] args) throws MalformedURLException,
@@ -71,19 +70,23 @@ public class PolygonOperation1
 
 		OsmRelation relation = relations.valueCollection().iterator().next();
 
+		// Build the polygon from the relation
 		MultiPolygon polygon = GeometryBuilder.build(relation, data);
+
+		// Create a buffer
 		Geometry buffer = polygon.buffer(0.005);
-		GeometryCollection gc = new GeometryFactory()
+
+		// Combine the polygon and its buffer into a GeometryCollection
+		Geometry both = new GeometryFactory()
 				.createGeometryCollection(new Geometry[] { polygon, buffer });
 
+		// GeoJSON output
 		Map<String, Object> properties = new HashMap<>();
-
 		GeoJSONWriter writer = new GeoJSONWriter();
-		org.wololo.geojson.Geometry g = writer.write(gc);
+		org.wololo.geojson.Geometry g = writer.write(both);
 		Feature feature = new Feature(g, properties);
 
 		String json = feature.toString();
-
 		System.out.println(GeoJsonHelper.prettyPrintFeature(json));
 	}
 
