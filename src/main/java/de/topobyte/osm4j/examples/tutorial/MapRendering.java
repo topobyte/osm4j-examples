@@ -113,7 +113,7 @@ public class MapRendering extends JPanel
 	private Color cBuildings = new Color(0xFFC2C2);
 
 	private int widthStreetBackground = 14;
-	private int widthStreetForeground = 14;
+	private int widthStreetForeground = 10;
 
 	// This is a set of values for the 'highway' key of ways that we will render
 	// as streets
