@@ -35,6 +35,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -49,7 +50,6 @@ import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.GeometryFactory;
 import com.vividsolutions.jts.geom.LineString;
 import com.vividsolutions.jts.geom.MultiPolygon;
-import com.vividsolutions.jts.geom.Polygon;
 
 import de.topobyte.adt.geo.BBox;
 import de.topobyte.jgs.transform.CoordinateTransformer;
@@ -57,13 +57,16 @@ import de.topobyte.jts2awt.Jts2Awt;
 import de.topobyte.mercator.image.MercatorImage;
 import de.topobyte.osm4j.core.access.OsmInputException;
 import de.topobyte.osm4j.core.access.OsmReader;
+import de.topobyte.osm4j.core.dataset.InMemoryMapDataSet;
+import de.topobyte.osm4j.core.dataset.MapDataSetLoader;
 import de.topobyte.osm4j.core.model.iface.OsmRelation;
 import de.topobyte.osm4j.core.model.iface.OsmWay;
 import de.topobyte.osm4j.core.model.util.OsmModelUtil;
-import de.topobyte.osm4j.core.resolve.DataSetReader;
 import de.topobyte.osm4j.core.resolve.EntityNotFoundException;
-import de.topobyte.osm4j.core.resolve.InMemoryDataSet;
-import de.topobyte.osm4j.geometry.GeometryBuilder;
+import de.topobyte.osm4j.geometry.RegionBuilder;
+import de.topobyte.osm4j.geometry.RegionBuilderResult;
+import de.topobyte.osm4j.geometry.WayBuilder;
+import de.topobyte.osm4j.geometry.WayBuilderResult;
 import de.topobyte.osm4j.xml.dynsax.OsmXmlReader;
 
 public class MapRendering extends JPanel
@@ -87,7 +90,8 @@ public class MapRendering extends JPanel
 
 		// Create a reader and read all data into a data set
 		OsmReader reader = new OsmXmlReader(input, false);
-		InMemoryDataSet data = DataSetReader.read(reader, true, true, true);
+		InMemoryMapDataSet data = MapDataSetLoader.read(reader, true, true,
+				true);
 
 		// The MercatorImage class knows how to transform input coordinates to
 		// the selected region selected via bounding box
@@ -130,7 +134,7 @@ public class MapRendering extends JPanel
 	private BBox bbox;
 
 	// The data set will be used as entity provider when building geometries
-	private InMemoryDataSet data;
+	private InMemoryMapDataSet data;
 
 	// We build the geometries to be rendered during construction and store them
 	// in these fields so that we don't have to recompute everything when
@@ -140,7 +144,7 @@ public class MapRendering extends JPanel
 	private Map<LineString, String> names = new HashMap<>();
 
 	public MapRendering(BBox bbox, MercatorImage mercatorImage,
-			InMemoryDataSet data)
+			InMemoryMapDataSet data)
 	{
 		this.bbox = bbox;
 		this.mercatorImage = mercatorImage;
@@ -168,7 +172,7 @@ public class MapRendering extends JPanel
 		for (OsmWay way : data.getWays().valueCollection()) {
 			Map<String, String> tags = OsmModelUtil.getTagsAsMap(way);
 			if (tags.containsKey("building")) {
-				Polygon area = getPolygon(way);
+				MultiPolygon area = getPolygon(way);
 				if (area != null) {
 					buildings.add(area);
 				}
@@ -194,21 +198,23 @@ public class MapRendering extends JPanel
 				continue;
 			}
 
-			LineString path = getLine(way);
-			if (path == null) {
-				continue;
-			}
+			Collection<LineString> paths = getLine(way);
 
 			if (!validHighways.contains(highway)) {
 				continue;
 			}
 
 			// Okay, this is a valid street
-			streets.add(path);
+			for (LineString path : paths) {
+				streets.add(path);
+			}
 
 			// If it has a name, store it for labeling
 			String name = tags.get("name");
-			if (name != null) {
+			if (name == null) {
+				continue;
+			}
+			for (LineString path : paths) {
 				names.put(path, name);
 			}
 		}
@@ -331,26 +337,29 @@ public class MapRendering extends JPanel
 		}
 	}
 
-	private LineString getLine(OsmWay way)
+	private WayBuilder wayBuilder = new WayBuilder();
+	private RegionBuilder regionBuilder = new RegionBuilder();
+
+	private Collection<LineString> getLine(OsmWay way)
 	{
+		List<LineString> results = new ArrayList<>();
 		try {
-			LineString line = GeometryBuilder.build(way, data);
-			return line;
+			WayBuilderResult lines = wayBuilder.buildResult(way, data);
+			results.addAll(lines.getLineStrings());
+			if (lines.getLinearRing() != null) {
+				results.add(lines.getLinearRing());
+			}
 		} catch (EntityNotFoundException e) {
-			return null;
+			// ignore
 		}
+		return results;
 	}
 
-	private Polygon getPolygon(OsmWay way)
+	private MultiPolygon getPolygon(OsmWay way)
 	{
 		try {
-			LineString line = GeometryBuilder.build(way, data);
-			if (line.isClosed()) {
-				Polygon polygon = new GeometryFactory().createPolygon(line
-						.getCoordinates());
-				return polygon;
-			}
-			return null;
+			RegionBuilderResult region = regionBuilder.buildResult(way, data);
+			return region.getMultiPolygon();
 		} catch (EntityNotFoundException e) {
 			return null;
 		}
@@ -359,8 +368,9 @@ public class MapRendering extends JPanel
 	private MultiPolygon getPolygon(OsmRelation relation)
 	{
 		try {
-			MultiPolygon polygon = GeometryBuilder.build(relation, data);
-			return polygon;
+			RegionBuilderResult region = regionBuilder.buildResult(relation,
+					data);
+			return region.getMultiPolygon();
 		} catch (EntityNotFoundException e) {
 			return null;
 		}

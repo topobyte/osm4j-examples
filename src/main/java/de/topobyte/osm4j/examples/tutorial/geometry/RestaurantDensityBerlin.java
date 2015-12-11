@@ -40,15 +40,17 @@ import com.vividsolutions.jts.geom.Point;
 import de.topobyte.adt.geo.BBox;
 import de.topobyte.osm4j.core.access.OsmInputException;
 import de.topobyte.osm4j.core.access.OsmIterator;
+import de.topobyte.osm4j.core.dataset.InMemoryMapDataSet;
+import de.topobyte.osm4j.core.dataset.MapDataSetLoader;
 import de.topobyte.osm4j.core.model.iface.EntityContainer;
 import de.topobyte.osm4j.core.model.iface.EntityType;
 import de.topobyte.osm4j.core.model.iface.OsmNode;
 import de.topobyte.osm4j.core.model.iface.OsmRelation;
 import de.topobyte.osm4j.core.model.util.OsmModelUtil;
-import de.topobyte.osm4j.core.resolve.DataSetReader;
 import de.topobyte.osm4j.core.resolve.EntityNotFoundException;
-import de.topobyte.osm4j.core.resolve.InMemoryDataSet;
 import de.topobyte.osm4j.geometry.GeometryBuilder;
+import de.topobyte.osm4j.geometry.RegionBuilder;
+import de.topobyte.osm4j.geometry.RegionBuilderResult;
 import de.topobyte.osm4j.tbo.access.TboIterator;
 import de.topobyte.osm4j.xml.dynsax.OsmXmlIterator;
 
@@ -58,6 +60,9 @@ public class RestaurantDensityBerlin
 	public static void main(String[] args) throws OsmInputException,
 			IOException, ParserConfigurationException, SAXException
 	{
+		GeometryBuilder geometryBuilder = new GeometryBuilder();
+		RegionBuilder regionBuilder = new RegionBuilder();
+
 		// This is where we get the boroughs from
 		String urlBoroughs = "http://osmtestdata.topobyte.de/Berlin.admin10.all.tbo";
 
@@ -67,9 +72,9 @@ public class RestaurantDensityBerlin
 
 		// Read boroughs
 		InputStream input = new URL(urlBoroughs).openStream();
-		OsmIterator iterator = new TboIterator(input);
-		InMemoryDataSet boroughsData = DataSetReader.read(iterator, false,
-				false, true);
+		OsmIterator iterator = new TboIterator(input, true, false);
+		InMemoryMapDataSet boroughsData = MapDataSetLoader.read(iterator,
+				false, false, true);
 		input.close();
 
 		// Build borough polygons and map their names
@@ -84,8 +89,12 @@ public class RestaurantDensityBerlin
 				continue;
 			}
 			try {
-				MultiPolygon polygon = GeometryBuilder.build(relation,
-						boroughsData);
+				RegionBuilderResult region = regionBuilder.buildResult(
+						relation, boroughsData);
+				MultiPolygon polygon = region.getMultiPolygon();
+				if (polygon.isEmpty()) {
+					continue;
+				}
 				boroughs.add(polygon);
 				names.put(polygon, name);
 			} catch (EntityNotFoundException e) {
@@ -130,7 +139,7 @@ public class RestaurantDensityBerlin
 
 			// Determine which borough a restaurant is in, and increment the
 			// counter
-			Point point = GeometryBuilder.build(node);
+			Point point = geometryBuilder.build(node);
 			for (MultiPolygon borough : boroughs) {
 				if (borough.contains(point)) {
 					counters.put(borough, counters.get(borough) + 1);

@@ -32,14 +32,14 @@ import org.wololo.geojson.Feature;
 import org.wololo.jts2geojson.GeoJSONWriter;
 import org.xml.sax.SAXException;
 
-import com.vividsolutions.jts.geom.MultiPolygon;
+import com.vividsolutions.jts.geom.Geometry;
 
 import de.topobyte.osm4j.core.access.OsmIterator;
+import de.topobyte.osm4j.core.dataset.InMemoryMapDataSet;
+import de.topobyte.osm4j.core.dataset.MapDataSetLoader;
 import de.topobyte.osm4j.core.model.iface.OsmRelation;
 import de.topobyte.osm4j.core.model.util.OsmModelUtil;
-import de.topobyte.osm4j.core.resolve.DataSetReader;
 import de.topobyte.osm4j.core.resolve.EntityNotFoundException;
-import de.topobyte.osm4j.core.resolve.InMemoryDataSet;
 import de.topobyte.osm4j.geometry.GeometryBuilder;
 import de.topobyte.osm4j.xml.dynsax.OsmXmlIterator;
 
@@ -58,7 +58,8 @@ public class BuildPolygon2
 		InputStream input = new URL(query).openStream();
 
 		OsmIterator iterator = new OsmXmlIterator(input, false);
-		InMemoryDataSet data = DataSetReader.read(iterator, false, false, true);
+		InMemoryMapDataSet data = MapDataSetLoader.read(iterator, false, false,
+				true);
 
 		TLongObjectMap<OsmRelation> relations = data.getRelations();
 
@@ -69,7 +70,7 @@ public class BuildPolygon2
 
 		OsmRelation relation = relations.valueCollection().iterator().next();
 
-		MultiPolygon polygon = GeometryBuilder.build(relation, data);
+		Geometry polygon = new GeometryBuilder().build(relation, data);
 
 		Map<String, String> tags = OsmModelUtil.getTagsAsMap(relation);
 		Map<String, Object> properties = new HashMap<>();
