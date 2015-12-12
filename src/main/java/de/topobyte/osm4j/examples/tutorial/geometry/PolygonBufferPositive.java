@@ -74,7 +74,7 @@ public class PolygonBufferPositive
 
 		// Build the polygon from the relation
 		RegionBuilder regionBuilder = new RegionBuilder();
-		RegionBuilderResult region = regionBuilder.buildResult(relation, data);
+		RegionBuilderResult region = regionBuilder.build(relation, data);
 		MultiPolygon polygon = region.getMultiPolygon();
 
 		// Create a buffer

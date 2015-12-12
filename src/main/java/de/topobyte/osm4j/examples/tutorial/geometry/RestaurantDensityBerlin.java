@@ -89,8 +89,8 @@ public class RestaurantDensityBerlin
 				continue;
 			}
 			try {
-				RegionBuilderResult region = regionBuilder.buildResult(
-						relation, boroughsData);
+				RegionBuilderResult region = regionBuilder.build(relation,
+						boroughsData);
 				MultiPolygon polygon = region.getMultiPolygon();
 				if (polygon.isEmpty()) {
 					continue;

@@ -365,7 +365,7 @@ public class MapRendering extends JPanel
 	{
 		List<LineString> results = new ArrayList<>();
 		try {
-			WayBuilderResult lines = wayBuilder.buildResult(way, data);
+			WayBuilderResult lines = wayBuilder.build(way, data);
 			results.addAll(lines.getLineStrings());
 			if (lines.getLinearRing() != null) {
 				results.add(lines.getLinearRing());
@@ -379,7 +379,7 @@ public class MapRendering extends JPanel
 	private MultiPolygon getPolygon(OsmWay way)
 	{
 		try {
-			RegionBuilderResult region = regionBuilder.buildResult(way, data);
+			RegionBuilderResult region = regionBuilder.build(way, data);
 			return region.getMultiPolygon();
 		} catch (EntityNotFoundException e) {
 			return null;
@@ -389,8 +389,7 @@ public class MapRendering extends JPanel
 	private MultiPolygon getPolygon(OsmRelation relation)
 	{
 		try {
-			RegionBuilderResult region = regionBuilder.buildResult(relation,
-					data);
+			RegionBuilderResult region = regionBuilder.build(relation, data);
 			return region.getMultiPolygon();
 		} catch (EntityNotFoundException e) {
 			return null;
