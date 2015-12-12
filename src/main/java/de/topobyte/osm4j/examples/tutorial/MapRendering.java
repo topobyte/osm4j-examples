@@ -62,7 +62,10 @@ import de.topobyte.osm4j.core.dataset.MapDataSetLoader;
 import de.topobyte.osm4j.core.model.iface.OsmRelation;
 import de.topobyte.osm4j.core.model.iface.OsmWay;
 import de.topobyte.osm4j.core.model.util.OsmModelUtil;
+import de.topobyte.osm4j.core.resolve.EntityFinder;
+import de.topobyte.osm4j.core.resolve.EntityFinders;
 import de.topobyte.osm4j.core.resolve.EntityNotFoundException;
+import de.topobyte.osm4j.core.resolve.EntityNotFoundStrategy;
 import de.topobyte.osm4j.geometry.RegionBuilder;
 import de.topobyte.osm4j.geometry.RegionBuilderResult;
 import de.topobyte.osm4j.geometry.WayBuilder;
@@ -168,21 +171,39 @@ public class MapRendering extends JPanel
 
 	private void buildRenderingData()
 	{
-		// Collect buildings from way areas...
-		for (OsmWay way : data.getWays().valueCollection()) {
-			Map<String, String> tags = OsmModelUtil.getTagsAsMap(way);
-			if (tags.containsKey("building")) {
-				MultiPolygon area = getPolygon(way);
-				if (area != null) {
-					buildings.add(area);
-				}
-			}
-		}
-		// ... and also from relation areas
+		// We create building geometries from relations and ways. Ways that are
+		// part of multipolygon buildings may be tagged as buildings themselves,
+		// however rendering them independently will fill the polygon holes they
+		// are cutting out of the relations. Hence we store the ways found in
+		// building relations to skip them later on when working on the ways.
+		Set<OsmWay> buildingRelationWays = new HashSet<>();
+		// We use this to find all way members of relations.
+		EntityFinder wayFinder = EntityFinders.create(data,
+				EntityNotFoundStrategy.IGNORE);
+
+		// Collect buildings from relation areas...
 		for (OsmRelation relation : data.getRelations().valueCollection()) {
 			Map<String, String> tags = OsmModelUtil.getTagsAsMap(relation);
 			if (tags.containsKey("building")) {
 				MultiPolygon area = getPolygon(relation);
+				if (area != null) {
+					buildings.add(area);
+				}
+				try {
+					wayFinder.findMemberWays(relation, buildingRelationWays);
+				} catch (EntityNotFoundException e) {
+					// cannot happen (IGNORE strategy)
+				}
+			}
+		}
+		// ... and also from way areas
+		for (OsmWay way : data.getWays().valueCollection()) {
+			if (buildingRelationWays.contains(way)) {
+				continue;
+			}
+			Map<String, String> tags = OsmModelUtil.getTagsAsMap(way);
+			if (tags.containsKey("building")) {
+				MultiPolygon area = getPolygon(way);
 				if (area != null) {
 					buildings.add(area);
 				}
