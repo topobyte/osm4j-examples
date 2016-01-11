@@ -25,7 +25,7 @@ dependencies {
     compile 'de.topobyte:osm4j-xml:0.0.3'
     compile 'de.topobyte:osm4j-pbf:0.0.5'
     compile 'de.topobyte:osm4j-tbo:0.0.9'
-    compile 'de.topobyte:osm4j-geometry:0.0.7'
+    compile 'de.topobyte:osm4j-geometry:0.0.10'
 
     compile 'de.topobyte:adt-geo:0.0.2'
     compile 'de.topobyte:jts2awt:0.0.1'
