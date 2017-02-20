@@ -20,5 +20,6 @@ the list. Then right click the repository and select 'Import Projects'.
 
 ## Tutorial
 
-Check out the [Tutorial](http://www.topobyte.de/tutorials/osm4j/)
+Check out the
+[Tutorial](http://www.jaryard.com/projects/osm4j/tutorial/index.html)
 to get an in-depth explanation of the examples in this project.
