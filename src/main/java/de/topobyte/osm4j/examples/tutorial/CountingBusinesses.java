@@ -41,8 +41,8 @@ public class CountingBusinesses
 			IOException, ParserConfigurationException, SAXException
 	{
 		// Define a query to retrieve some data
-		String query = "http://www.overpass-api.de/api/xapi?map?bbox="
-				+ "13.465661,52.504055,13.469817,52.506204";
+		String query = "http://www.overpass-api.de/api/xapi?*[bbox="
+				+ "13.465661,52.504055,13.469817,52.506204]";
 
 		// Open a stream
 		InputStream input = new URL(query).openStream();
