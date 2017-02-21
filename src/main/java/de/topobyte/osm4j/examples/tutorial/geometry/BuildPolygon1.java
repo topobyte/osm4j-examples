@@ -17,20 +17,14 @@
 
 package de.topobyte.osm4j.examples.tutorial.geometry;
 
-import gnu.trove.map.TLongObjectMap;
-
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.xml.parsers.ParserConfigurationException;
-
 import org.wololo.geojson.Feature;
 import org.wololo.jts2geojson.GeoJSONWriter;
-import org.xml.sax.SAXException;
 
 import com.vividsolutions.jts.geom.Geometry;
 
@@ -42,13 +36,13 @@ import de.topobyte.osm4j.core.model.util.OsmModelUtil;
 import de.topobyte.osm4j.core.resolve.EntityNotFoundException;
 import de.topobyte.osm4j.geometry.GeometryBuilder;
 import de.topobyte.osm4j.xml.dynsax.OsmXmlIterator;
+import gnu.trove.map.TLongObjectMap;
 
 public class BuildPolygon1
 {
 
-	public static void main(String[] args) throws MalformedURLException,
-			IOException, ParserConfigurationException, SAXException,
-			EntityNotFoundException
+	public static void main(String[] args)
+			throws IOException, EntityNotFoundException
 	{
 		// String query =
 		// "http://overpass-api.de/api/interpreter?data=(rel(122895);>;);out;";

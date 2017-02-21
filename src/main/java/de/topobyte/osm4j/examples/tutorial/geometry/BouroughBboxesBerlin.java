@@ -25,10 +25,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.xml.parsers.ParserConfigurationException;
-
-import org.xml.sax.SAXException;
-
 import com.vividsolutions.jts.geom.Envelope;
 import com.vividsolutions.jts.geom.MultiPolygon;
 
@@ -47,8 +43,7 @@ import de.topobyte.osm4j.tbo.access.TboIterator;
 public class BouroughBboxesBerlin
 {
 
-	public static void main(String[] args) throws OsmInputException,
-			IOException, ParserConfigurationException, SAXException
+	public static void main(String[] args) throws OsmInputException, IOException
 	{
 		RegionBuilder regionBuilder = new RegionBuilder();
 

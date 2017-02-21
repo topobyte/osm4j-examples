@@ -26,19 +26,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.xml.parsers.ParserConfigurationException;
-
 import org.wololo.geojson.Feature;
 import org.wololo.geojson.FeatureCollection;
 import org.wololo.jts2geojson.GeoJSONWriter;
-import org.xml.sax.SAXException;
 
 import com.vividsolutions.jts.geom.Envelope;
 import com.vividsolutions.jts.geom.MultiPolygon;
 import com.vividsolutions.jts.geom.Point;
 
 import de.topobyte.adt.geo.BBox;
-import de.topobyte.osm4j.core.access.OsmInputException;
 import de.topobyte.osm4j.core.access.OsmIterator;
 import de.topobyte.osm4j.core.dataset.InMemoryMapDataSet;
 import de.topobyte.osm4j.core.dataset.MapDataSetLoader;
@@ -57,8 +53,8 @@ import de.topobyte.osm4j.xml.dynsax.OsmXmlIterator;
 public class RestaurantDensityBerlin
 {
 
-	public static void main(String[] args) throws OsmInputException,
-			IOException, ParserConfigurationException, SAXException
+	public static void main(String[] args)
+			throws IOException, EntityNotFoundException
 	{
 		GeometryBuilder geometryBuilder = new GeometryBuilder();
 		RegionBuilder regionBuilder = new RegionBuilder();
