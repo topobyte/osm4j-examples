@@ -21,12 +21,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.net.MalformedURLException;
 import java.net.URL;
-
-import javax.xml.parsers.ParserConfigurationException;
-
-import org.xml.sax.SAXException;
 
 import de.topobyte.osm4j.core.access.OsmIterator;
 import de.topobyte.osm4j.core.access.OsmOutputStream;
@@ -40,8 +35,7 @@ import de.topobyte.osm4j.xml.dynsax.OsmXmlIterator;
 public class OverpassToPbf
 {
 
-	public static void main(String[] args) throws MalformedURLException,
-			IOException, ParserConfigurationException, SAXException
+	public static void main(String[] args) throws IOException
 	{
 		// Define a query to retrieve some data
 		String query = "http://www.overpass-api.de/api/xapi?*[bbox="

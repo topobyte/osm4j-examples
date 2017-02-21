@@ -19,12 +19,7 @@ package de.topobyte.osm4j.examples.tutorial;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.MalformedURLException;
 import java.net.URL;
-
-import javax.xml.parsers.ParserConfigurationException;
-
-import org.xml.sax.SAXException;
 
 import de.topobyte.osm4j.core.access.OsmIterator;
 import de.topobyte.osm4j.core.model.iface.EntityContainer;
@@ -36,8 +31,7 @@ import de.topobyte.osm4j.xml.dynsax.OsmXmlIterator;
 public class HelloWorld
 {
 
-	public static void main(String[] args) throws MalformedURLException,
-			IOException, ParserConfigurationException, SAXException
+	public static void main(String[] args) throws IOException
 	{
 		// Define a query to retrieve some data
 		String query = "http://osmtestdata.topobyte.de/big-ben.osm";

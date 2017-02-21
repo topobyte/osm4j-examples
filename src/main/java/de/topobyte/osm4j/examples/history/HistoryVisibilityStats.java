@@ -19,12 +19,7 @@ package de.topobyte.osm4j.examples.history;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.MalformedURLException;
 import java.net.URL;
-
-import javax.xml.parsers.ParserConfigurationException;
-
-import org.xml.sax.SAXException;
 
 import com.google.common.collect.HashMultiset;
 import com.google.common.collect.Multiset;
@@ -38,8 +33,7 @@ import de.topobyte.osm4j.pbf.seq.PbfIterator;
 public class HistoryVisibilityStats
 {
 
-	public static void main(String[] args) throws MalformedURLException,
-			IOException, ParserConfigurationException, SAXException
+	public static void main(String[] args) throws IOException
 	{
 		// Define a URL to retrieve some data
 		String url = "http://download.geofabrik.de/europe/germany/bremen.osh.pbf";

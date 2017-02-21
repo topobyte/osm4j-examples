@@ -22,10 +22,6 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.Map;
 
-import javax.xml.parsers.ParserConfigurationException;
-
-import org.xml.sax.SAXException;
-
 import de.topobyte.osm4j.core.access.OsmIterator;
 import de.topobyte.osm4j.core.model.iface.EntityContainer;
 import de.topobyte.osm4j.core.model.iface.EntityType;
@@ -36,8 +32,7 @@ import de.topobyte.osm4j.xml.dynsax.OsmXmlIterator;
 public class ListRestaurantsFromOverpassInBoundingBox
 {
 
-	public static void main(String[] args) throws ParserConfigurationException,
-			SAXException, IOException
+	public static void main(String[] args) throws IOException
 	{
 		// Define a query to retrieve some data
 		String query = "http://www.overpass-api.de/api/xapi?*[bbox="

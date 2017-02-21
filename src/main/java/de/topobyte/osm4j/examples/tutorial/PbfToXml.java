@@ -20,11 +20,6 @@ package de.topobyte.osm4j.examples.tutorial;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.MalformedURLException;
-
-import javax.xml.parsers.ParserConfigurationException;
-
-import org.xml.sax.SAXException;
 
 import de.topobyte.osm4j.core.access.OsmIterator;
 import de.topobyte.osm4j.core.access.OsmOutputStream;
@@ -38,8 +33,7 @@ import de.topobyte.osm4j.xml.output.OsmXmlOutputStream;
 public class PbfToXml
 {
 
-	public static void main(String[] args) throws MalformedURLException,
-			IOException, ParserConfigurationException, SAXException
+	public static void main(String[] args) throws IOException
 	{
 		// Open a file as input
 		InputStream input = new FileInputStream("/tmp/bbox.pbf");

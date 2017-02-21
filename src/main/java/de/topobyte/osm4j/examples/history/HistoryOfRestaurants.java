@@ -19,15 +19,11 @@ package de.topobyte.osm4j.examples.history;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Map;
 
-import javax.xml.parsers.ParserConfigurationException;
-
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
-import org.xml.sax.SAXException;
 
 import com.google.common.collect.Sets;
 import com.google.common.collect.Sets.SetView;
@@ -42,8 +38,7 @@ import de.topobyte.osm4j.pbf.seq.PbfIterator;
 public class HistoryOfRestaurants
 {
 
-	public static void main(String[] args) throws MalformedURLException,
-			IOException, ParserConfigurationException, SAXException
+	public static void main(String[] args) throws IOException
 	{
 		// Define a URL to retrieve some data
 		String url = "http://download.geofabrik.de/europe/germany/bremen.osh.pbf";

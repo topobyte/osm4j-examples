@@ -31,7 +31,6 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Path2D;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -75,8 +74,7 @@ import de.topobyte.osm4j.xml.dynsax.OsmXmlReader;
 public class MapRendering extends JPanel
 {
 
-	public static void main(String[] args) throws OsmInputException,
-			MalformedURLException, IOException
+	public static void main(String[] args) throws IOException, OsmInputException
 	{
 		// This is the region we would like to render
 		BBox bbox = new BBox(13.45546, 52.51229, 13.46642, 52.50761);

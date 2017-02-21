@@ -19,12 +19,7 @@ package de.topobyte.osm4j.examples.tutorial;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.MalformedURLException;
 import java.net.URL;
-
-import javax.xml.parsers.ParserConfigurationException;
-
-import org.xml.sax.SAXException;
 
 import de.topobyte.osm4j.core.access.DefaultOsmHandler;
 import de.topobyte.osm4j.core.access.OsmInputException;
@@ -37,9 +32,7 @@ import de.topobyte.osm4j.xml.dynsax.OsmXmlReader;
 public class CountingElements3
 {
 
-	public static void main(String[] args) throws MalformedURLException,
-			IOException, ParserConfigurationException, SAXException,
-			OsmInputException
+	public static void main(String[] args) throws IOException, OsmInputException
 	{
 		// Define a query to retrieve some data
 		String query = "http://www.overpass-api.de/api/xapi?*[bbox="
