@@ -26,6 +26,7 @@ import java.util.Map;
 import org.wololo.geojson.Feature;
 import org.wololo.jts2geojson.GeoJSONWriter;
 
+import com.slimjars.dist.gnu.trove.map.TLongObjectMap;
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.GeometryFactory;
 import com.vividsolutions.jts.geom.MultiPolygon;
@@ -38,7 +39,6 @@ import de.topobyte.osm4j.core.resolve.EntityNotFoundException;
 import de.topobyte.osm4j.geometry.RegionBuilder;
 import de.topobyte.osm4j.geometry.RegionBuilderResult;
 import de.topobyte.osm4j.xml.dynsax.OsmXmlIterator;
-import gnu.trove.map.TLongObjectMap;
 
 public class PolygonBufferPositive
 {

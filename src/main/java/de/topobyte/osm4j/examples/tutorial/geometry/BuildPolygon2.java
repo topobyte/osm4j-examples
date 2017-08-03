@@ -26,6 +26,7 @@ import java.util.Map;
 import org.wololo.geojson.Feature;
 import org.wololo.jts2geojson.GeoJSONWriter;
 
+import com.slimjars.dist.gnu.trove.map.TLongObjectMap;
 import com.vividsolutions.jts.geom.Geometry;
 
 import de.topobyte.osm4j.core.access.OsmIterator;
@@ -36,7 +37,6 @@ import de.topobyte.osm4j.core.model.util.OsmModelUtil;
 import de.topobyte.osm4j.core.resolve.EntityNotFoundException;
 import de.topobyte.osm4j.geometry.GeometryBuilder;
 import de.topobyte.osm4j.xml.dynsax.OsmXmlIterator;
-import gnu.trove.map.TLongObjectMap;
 
 public class BuildPolygon2
 {
