@@ -82,7 +82,7 @@ public class MapRendering extends JPanel
 		int height = 600;
 
 		// Define a query to retrieve some data
-		String queryTemplate = "http://overpass-api.de/api/interpreter?data=(node(%f,%f,%f,%f);<;>);out;";
+		String queryTemplate = "http://overpass-api.de/api/interpreter?data=(node(%f,%f,%f,%f);<;>;);out;";
 		String query = String.format(queryTemplate, bbox.getLat2(),
 				bbox.getLon1(), bbox.getLat1(), bbox.getLon2());
 
