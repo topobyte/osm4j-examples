@@ -112,7 +112,7 @@ public class MapRendering extends JPanel
 
 	// Some fields that define the map colors and street line widths
 	private Color cBackground = new Color(0xEEEEEE);
-	private Color cBBox = Color.BLUE;;
+	private Color cBBox = Color.BLUE;
 	private Color cStreetForeground = Color.WHITE;
 	private Color cStreetBackground = new Color(0xDDDDDD);
 	private Color cStreetText = Color.BLACK;
