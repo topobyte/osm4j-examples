@@ -26,13 +26,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.locationtech.jts.geom.Envelope;
+import org.locationtech.jts.geom.MultiPolygon;
+import org.locationtech.jts.geom.Point;
 import org.wololo.geojson.Feature;
 import org.wololo.geojson.FeatureCollection;
 import org.wololo.jts2geojson.GeoJSONWriter;
-
-import com.vividsolutions.jts.geom.Envelope;
-import com.vividsolutions.jts.geom.MultiPolygon;
-import com.vividsolutions.jts.geom.Point;
 
 import de.topobyte.adt.geo.BBox;
 import de.topobyte.osm4j.core.access.OsmIterator;
@@ -69,8 +68,8 @@ public class RestaurantDensityBerlin
 		// Read boroughs
 		InputStream input = new URL(urlBoroughs).openStream();
 		OsmIterator iterator = new TboIterator(input, true, false);
-		InMemoryMapDataSet boroughsData = MapDataSetLoader.read(iterator,
-				false, false, true);
+		InMemoryMapDataSet boroughsData = MapDataSetLoader.read(iterator, false,
+				false, true);
 		input.close();
 
 		// Build borough polygons and map their names

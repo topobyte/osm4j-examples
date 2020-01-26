@@ -25,8 +25,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.vividsolutions.jts.geom.Envelope;
-import com.vividsolutions.jts.geom.MultiPolygon;
+import org.locationtech.jts.geom.Envelope;
+import org.locationtech.jts.geom.MultiPolygon;
 
 import de.topobyte.adt.geo.BBox;
 import de.topobyte.osm4j.core.access.OsmInputException;
@@ -53,8 +53,8 @@ public class BouroughBboxesBerlin
 		// Read boroughs
 		InputStream input = new URL(urlBoroughs).openStream();
 		OsmIterator iterator = new TboIterator(input, true, false);
-		InMemoryMapDataSet boroughsData = MapDataSetLoader.read(iterator,
-				false, false, true);
+		InMemoryMapDataSet boroughsData = MapDataSetLoader.read(iterator, false,
+				false, true);
 		input.close();
 
 		// Build borough polygons and map their names

@@ -44,11 +44,11 @@ import java.util.Set;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import com.vividsolutions.jts.geom.Coordinate;
-import com.vividsolutions.jts.geom.Geometry;
-import com.vividsolutions.jts.geom.GeometryFactory;
-import com.vividsolutions.jts.geom.LineString;
-import com.vividsolutions.jts.geom.MultiPolygon;
+import org.locationtech.jts.geom.Coordinate;
+import org.locationtech.jts.geom.Geometry;
+import org.locationtech.jts.geom.GeometryFactory;
+import org.locationtech.jts.geom.LineString;
+import org.locationtech.jts.geom.MultiPolygon;
 
 import de.topobyte.adt.geo.BBox;
 import de.topobyte.jgs.transform.CoordinateTransformer;
@@ -323,8 +323,8 @@ public class MapRendering extends JPanel
 			double dy = t.getY(d.y);
 
 			// Determine the length of the segment on the screen
-			double len = Math.sqrt((dx - cx) * (dx - cx) + (dy - cy)
-					* (dy - cy));
+			double len = Math
+					.sqrt((dx - cx) * (dx - cx) + (dy - cy) * (dy - cy));
 
 			// And also the length of the rendered street name
 			int textLength = metrics.stringWidth(name);
