@@ -15,7 +15,7 @@ Create an Eclipse project like this:
 
     ./gradlew cleanEclipse eclipse
 
-After that, got to the 'Git Repositories' view, add the local repository to
+After that, go to the 'Git Repositories' view, add the local repository to
 the list. Then right click the repository and select 'Import Projects'.
 
 ## Tutorial
