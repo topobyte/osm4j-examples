@@ -74,6 +74,8 @@ import de.topobyte.osm4j.xml.dynsax.OsmXmlReader;
 public class MapRendering extends JPanel
 {
 
+	private static final long serialVersionUID = 1L;
+
 	public static void main(String[] args) throws IOException, OsmInputException
 	{
 		// This is the region we would like to render
