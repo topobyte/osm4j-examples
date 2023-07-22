@@ -52,8 +52,7 @@ import de.topobyte.osm4j.xml.dynsax.OsmXmlIterator;
 public class RestaurantDensityBerlin
 {
 
-	public static void main(String[] args)
-			throws IOException, EntityNotFoundException
+	public static void main(String[] args) throws IOException
 	{
 		GeometryBuilder geometryBuilder = new GeometryBuilder();
 		RegionBuilder regionBuilder = new RegionBuilder();
