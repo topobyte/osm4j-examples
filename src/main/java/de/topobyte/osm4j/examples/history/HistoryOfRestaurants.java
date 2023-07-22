@@ -19,9 +19,12 @@ package de.topobyte.osm4j.examples.history;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URL;
 import java.util.Map;
 
+import org.apache.hc.client5.http.classic.methods.HttpGet;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
+import org.apache.hc.client5.http.protocol.HttpClientContext;
+import org.apache.hc.core5.http.HttpStatus;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
@@ -41,11 +44,27 @@ public class HistoryOfRestaurants
 	public static void main(String[] args) throws IOException
 	{
 		// Define a URL to retrieve some data
-		String url = "http://download.geofabrik.de/europe/germany/bremen.osh.pbf";
+		String url = "https://osm-internal.download.geofabrik.de/europe/germany/bremen-internal.osh.pbf";
 
-		// Open a stream
-		InputStream input = new URL(url).openStream();
+		CloseableHttpClient client = GeofabrikUtils.createClientWithCookie();
 
+		HttpClientContext context = HttpClientContext.create();
+		HttpGet request = new HttpGet(url);
+
+		client.execute(request, context, response -> {
+			if (response.getCode() == HttpStatus.SC_OK) {
+				InputStream input = response.getEntity().getContent();
+				process(input);
+			} else {
+				System.out.println(
+						"Accessing the history file was not successful");
+			}
+			return null;
+		});
+	}
+
+	private static void process(InputStream input)
+	{
 		// Create an iterator for PBF data
 		OsmIterator iterator = new PbfIterator(input, true);
 
